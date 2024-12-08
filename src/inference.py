@@ -122,7 +122,7 @@ def get_prompt_template(category: str) -> str:
     return category_map.get(category, category_map["total"])
 
 
-def run(cfg):
+def run(cfg, original_resume_text: str):
     """
     Main function to generate modified resumes based on given configuration and category.
 
@@ -131,11 +131,9 @@ def run(cfg):
                          - cfg.model: Model name or path.
                          - cfg.checkpoint_path: Path to checkpoint for PEFT model.
                          - cfg.training_args.seed: Random seed.
-                         - cfg.category: Category to select appropriate prompt and data from.
+                         - cfg.category: Category to select appropriate prompt.
                          - cfg.auth_token (optional): Authentication token if required.
-    
-    Returns:
-        None
+        original_resume_text (str): The original resume text from the user.
     """
     model_name = cfg.model.split('/')[-1]
     torch_seed(cfg.training_args.seed)
@@ -146,28 +144,17 @@ def run(cfg):
     generation_log_path = f'./generation_log/{model_name}/'
     os.makedirs(generation_log_path, exist_ok=True)
     
-    with open('./data/final_self_introduction_classified_with_score.json', 'r', encoding='utf-8') as f:
-        resume = json.load(f)
-
     # Use the category from config
     category = cfg.category
 
     # Load prompt template according to category
     prompt_template = get_prompt_template(category)
 
-    # Randomly select one entry from the chosen category
-    if category not in resume:
-        raise ValueError(f"The category '{category}' does not exist in the data.")
-    random_key = random.choice(list(resume[category].keys()))
-
-    original_resume = f"질문: {resume[category][random_key]['q1']}\n답변: {resume[category][random_key]['a1']}"
-    eval_results = resume[category][random_key]['score']['q1']
-
-    # Format the prompt with the chosen data
+    # Format the prompt with the user provided original resume
+    # 사용자가 제공한 원본 자기소개서를 "원본 자기소개서:" 아래에 삽입
     prompt_filled = (
         f"{prompt_template}\n\n"
-        f"원본 자기소개서:\n{original_resume}\n\n"
-        f"평가 결과:\n{eval_results}\n\n"
+        f"원본 자기소개서:\n{original_resume_text}\n\n"
         f"수정된 자기소개서:"
     )
 
@@ -223,7 +210,6 @@ def run(cfg):
         if '수정된 자기소개서:' in gen:
             final.append(gen.split('수정된 자기소개서:')[1].strip())
         else:
-            # If the prompt does not contain '수정된 자기소개서:', append the whole generation
             final.append(gen.strip())
 
     final_test_dataset['generated_resume'] = final
@@ -237,5 +223,6 @@ def run(cfg):
 if __name__ == '__main__':
     args = OmegaConf.from_cli()
     cfg = OmegaConf.load(args.config_file)
-    cfg = OmegaConf.merge(cfg, args)
-    run(cfg)
+    cfg = OmegaConf.merge(cfg, args)  
+    original_resume_text = args.original_resume
+    run(cfg, original_resume_text)
