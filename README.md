@@ -45,6 +45,6 @@ GPT-4o를 활용한 자기소개서 평가와 EEVE-Korean-10.8B-v1.0 기반 분�
 - **inference.sh**:
 공학(engineering), 인문(humanities), 자연(natural), 사회(social), 일반(total) 각 분야별로 첨삭 추론을 실행하는 쉘 스크립트
   ```bash
-  sh src/inference.sh engineering "자기소개서 내용..."
+  sh src/inference.sh --original_resume "자기소개서 내용..."
   ```
 
