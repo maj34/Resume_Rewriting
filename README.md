@@ -19,9 +19,10 @@
 - **evaluation.py**:
 사용자가 입력한 자기소개서에 대하여 질문 관련도(Relevance), 의도 명확성(Clarity), 직무 적합성(Compatibility), 정보 구체성(Concreteness) 4가지 Aspects를 기반으로 1~5점 리커트 척도로 평가합니다.
 - 실행 전 OpenAI API key를 코드 내 변수에 직접 입력하거나 환경변수로 설정해야 합니다.
+- 각 Category 별로 평가할 수 있도록 Argument에 ['공학', '자연', '인문', '사회', '기타']를 각각 입력하면 됩니다.
 
   ```bash
-  python src/evaluation.py --input "자기소개서 내용..."
+  python src/evaluation.py --category '공학'
   ```
 
 </br>
