@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python3.8 crawling.py --start_page 1 --end_page 600
