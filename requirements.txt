@@ -1,0 +1,11 @@
+scikit-learn==1.3.2
+trl==0.10.1
+omegaconf==2.3.0
+wandb==0.17.5
+peft==0.12.0
+accelerate==0.33.0
+torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
+transformers==4.41.2
+bitsandbytes==0.44.1
+selenium==4.27.1
+tqdm==4.66.4
