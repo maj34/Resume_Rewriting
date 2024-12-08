@@ -19,10 +19,10 @@
 - **evaluation.py**:
 사용자가 입력한 자기소개서에 대하여 질문 관련도(Relevance), 의도 명확성(Clarity), 직무 적합성(Compatibility), 정보 구체성(Concreteness) 4가지 Aspects를 기반으로 1~5점 리커트 척도로 평가합니다.
 - 실행 전 OpenAI API key를 코드 내 변수에 직접 입력하거나 환경변수로 설정해야 합니다.
-- 각 Category 별로 평가할 수 있도록 Argument에 ['공학', '자연', '인문', '사회', '기타']를 각각 입력하면 됩니다.
+- 각 Category 별로 평가를 진행됩니다
 
   ```bash
-  python src/evaluation.py --category '공학'
+  sh evaluation.sh
   ```
 
 </br>
@@ -34,7 +34,7 @@
 공학(engineering), 인문(humanities), 자연(natural), 사회(social), 일반(total) 총 5가지 분야별로 모델을 학습하기 위한 스크립트입니다.
 실행 시 checkpoint/EEVE-Korean-10.8B-v1.0/{분야} 폴더 하위에 추론용 체크포인트가 생성됩니다.
   ```bash
-  sh src/fine_tuning_engineering.sh
+  sh fine_tuning_engineering.sh
   ```
 
 </br>
@@ -47,7 +47,7 @@
 - **inference.sh**:
 공학(engineering), 인문(humanities), 자연(natural), 사회(social), 일반(total) 각 분야별로 첨삭 추론을 실행하는 쉘 스크립트입니다.
   ```bash
-  sh src/inference.sh engineering "자기소개서 내용..."
+  sh inference.sh engineering "자기소개서 내용..."
   ```
 
 
